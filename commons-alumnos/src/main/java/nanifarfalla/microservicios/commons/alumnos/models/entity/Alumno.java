@@ -1,4 +1,4 @@
-package nanifarfalla.microservicios.app.usuarios.models.entity;
+package nanifarfalla.microservicios.commons.alumnos.models.entity;
 
 import java.util.Date;
 
@@ -75,6 +75,25 @@ public class Alumno {
 
 	public void setCreatAt(Date creatAt) {
 		this.creatAt = creatAt;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if(this == obj) {
+			return true;
+		}
+		
+		if (!(obj instanceof Alumno)) {
+			return false;
+		}
+		
+		Alumno a = (Alumno) obj;
+		
+		
+		return this.id != null && this.id.equals(a.getId());
 	}
 
 	

@@ -20,6 +20,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>nanifarfalla.microservicios.commons.alumnos</groupId>
+			<artifactId>commons-alumnos</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+
+		</dependency>
+		<dependency>
 			<groupId>nanifarfalla.microservicios.commons</groupId>
 			<artifactId>commons-microservicios</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
