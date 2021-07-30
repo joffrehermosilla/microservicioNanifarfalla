@@ -1,4 +1,4 @@
-package nanifarfalla.microservicios.app.examenes.models.entity;
+package nanifarfalla.microservicios.commons.examenes.models.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

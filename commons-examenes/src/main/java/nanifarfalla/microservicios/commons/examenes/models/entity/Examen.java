@@ -1,4 +1,4 @@
-package nanifarfalla.microservicios.app.examenes.models.entity;
+package nanifarfalla.microservicios.commons.examenes.models.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +18,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
 
 @Entity
 @Table(name = "examenes")
@@ -95,6 +97,21 @@ public class Examen {
 	public void removePregunta(Pregunta pregunta) {
 		this.preguntas.remove(pregunta);
 		pregunta.setExamen(null);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Examen)) {
+			return false;
+		}
+
+		Examen a = (Examen) obj;
+
+		return this.id != null && this.id.equals(a.getId());
 	}
 
 }
