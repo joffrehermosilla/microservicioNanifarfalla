@@ -24,7 +24,7 @@
 			<artifactId>commons-examenes</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>nanifarfalla.microservicios.commons.alumnos</groupId>
 			<artifactId>commons-alumnos</artifactId>
@@ -48,7 +48,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
