@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -54,6 +55,8 @@ public class Examen {
 	@NotNull
 	private Asignatura asignatura;
 	
+	@Transient
+	private boolean respondido;
 	
 	public Examen() {
 
@@ -131,6 +134,14 @@ public class Examen {
 
 	public void setAsignatura(Asignatura asignatura) {
 		this.asignatura = asignatura;
+	}
+
+	public boolean isRespondido() {
+		return respondido;
+	}
+
+	public void setRespondido(boolean respondido) {
+		this.respondido = respondido;
 	}
 
 	
