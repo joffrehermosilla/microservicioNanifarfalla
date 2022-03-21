@@ -19,6 +19,9 @@ public class AlumnoServiceImpl extends CommonServiceImpl<Alumno, AlumnoRepositor
 		return repository.findByNombreOrApellido(term);
 	}
 
-	
-	
+	@Override
+	public int lastcode() {
+		return repository.lastcode();
+	}
+
 }

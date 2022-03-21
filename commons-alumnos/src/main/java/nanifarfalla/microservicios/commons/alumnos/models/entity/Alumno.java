@@ -41,7 +41,8 @@ public class Alumno {
 	@JsonIgnore
 	private byte[]foto;
 	
-	
+	@JsonIgnore
+	private String rutafoto;
 	
 	
 	@PrePersist
@@ -125,6 +126,18 @@ public class Alumno {
 	
 	public Integer getFotoHashCode() {
 		return (this.foto !=null)? this.foto.hashCode():null;
+	}
+
+
+
+	public String getRutafoto() {
+		return rutafoto;
+	}
+
+
+
+	public void setRutafoto(String rutafoto) {
+		this.rutafoto = rutafoto;
 	}
 	
 	

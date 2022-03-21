@@ -8,5 +8,6 @@ import nanifarfalla.microservicios.commons.services.CommonService;
 public interface AlumnoService extends CommonService<Alumno> {
 
 	public List<Alumno> findByNombreOrApellido(String term);
-	
+
+	int lastcode();
 }

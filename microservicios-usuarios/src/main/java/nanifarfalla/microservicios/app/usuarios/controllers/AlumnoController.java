@@ -3,6 +3,7 @@ package nanifarfalla.microservicios.app.usuarios.controllers;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.core.io.ByteArrayResource;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import nanifarfalla.microservicios.app.usuarios.services.AlumnoService;
 import nanifarfalla.microservicios.commons.alumnos.models.entity.Alumno;
 import nanifarfalla.microservicios.commons.controllers.CommonController;
+import nanifarfalla.microservicios.commons.utileria.Utileria;
 
 @RestController
 public class AlumnoController extends CommonController<Alumno, AlumnoService> {
@@ -63,6 +65,11 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
 	}
 
+	
+	
+	
+	
+	
 	@PostMapping("/crear-con-foto")
 	public ResponseEntity<?> crearConFoto(@Valid Alumno alumno, BindingResult result,
 			@RequestParam MultipartFile archivo) throws IOException {
@@ -103,4 +110,62 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
 	}
 
+	
+	@PostMapping("/crear-con-fotoruta")
+	public ResponseEntity<?> crearConFotoRuta(@Valid Alumno alumno, BindingResult result,
+			@RequestParam MultipartFile archivo, HttpServletRequest request) throws IOException {
+
+		int totalusuario = service.lastcode() + 1;
+
+		if (!archivo.isEmpty()) {
+			// usuario.setFoto(archivo.getBytes());
+
+			String rutax = "/resources/images/usuarios/" + totalusuario;
+			System.out.println("rutax: " + rutax);
+			String nombreImagen = Utileria.guardarImagenPlus(archivo, request, rutax);
+
+			alumno.setRutafoto(nombreImagen);
+
+		}
+
+		return super.crear(alumno, result);
+	}
+
+
+	@PutMapping("/editar-con-fotoruta/{id}")
+	public ResponseEntity<?> editarConFotoRuta(@Valid Alumno alumno, BindingResult result, @PathVariable Long id,
+			@RequestParam MultipartFile archivo, HttpServletRequest request) throws IOException {
+
+		if (result.hasErrors()) {
+			return this.validar(result);
+		}
+
+		Optional<Alumno> o = service.findById(id);
+
+		if (!o.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		Alumno alumnoDb = o.get();
+
+		alumnoDb.setNombre(alumno.getNombre());
+		alumnoDb.setApellido(alumno.getApellido());
+		alumnoDb.setEmail(alumno.getEmail());
+		if (!archivo.isEmpty()) {
+			alumno.setFoto(archivo.getBytes());
+			String rutax = "/resources/images/usuarios/" + alumno.getId();
+			System.out.println("rutax: " + rutax);
+			String nombreImagen = Utileria.guardarImagenPlus(archivo, request, rutax);
+			alumno.setRutafoto(nombreImagen);
+
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
+	}
+
+	
+
+
+	
+	
+	
 }

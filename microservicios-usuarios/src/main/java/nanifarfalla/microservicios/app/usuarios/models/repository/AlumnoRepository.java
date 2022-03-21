@@ -13,4 +13,7 @@ public interface AlumnoRepository extends PagingAndSortingRepository<Alumno, Lon
 	@Query("select a from Alumno a where a.nombre like %?1% or a.apellido like %?1%")
 	public List<Alumno> findByNombreOrApellido(String term);
 	
+	
+	@Query(value = "select a.id from alumnos a order by id DESC LIMIT 1", nativeQuery = true)
+	int lastcode();
 }

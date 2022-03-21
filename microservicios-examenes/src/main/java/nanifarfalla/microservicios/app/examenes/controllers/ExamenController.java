@@ -23,11 +23,10 @@ public class ExamenController extends CommonController<Examen, ExamenService> {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editar(@Valid @RequestBody Examen examen, BindingResult result, @PathVariable Long id) {
 
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return this.validar(result);
 		}
-		
-		
+
 		Optional<Examen> o = service.findById(id);
 
 		if (!o.isPresent()) {
@@ -36,7 +35,18 @@ public class ExamenController extends CommonController<Examen, ExamenService> {
 		Examen examenDb = o.get();
 		examenDb.setNombre(examen.getNombre());
 
-		examenDb.getPreguntas().stream().filter(pdb -> !examen.getPreguntas().contains(pdb))
+		/*
+		 * List<Pregunta> eliminadas = new ArrayList<>();
+		 * 
+		 * examenDb.getPreguntas().forEach(pdb ->{
+		 * if(!examen.getPreguntas().contains(pdb)){ eliminadas.add(pdb); } }));
+		 * 
+		 * eliminadas.forEach(p ->{ examenDb.removePregunta(p); } ));
+		 */
+
+		examenDb.getPreguntas()
+				.stream()
+				.filter(pdb -> !examen.getPreguntas().contains(pdb))
 				.forEach(examenDb::removePregunta);
 
 		examenDb.setPreguntas(examen.getPreguntas());
