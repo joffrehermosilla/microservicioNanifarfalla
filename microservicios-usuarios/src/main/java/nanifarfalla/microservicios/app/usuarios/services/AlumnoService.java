@@ -10,4 +10,6 @@ public interface AlumnoService extends CommonService<Alumno> {
 	public List<Alumno> findByNombreOrApellido(String term);
 
 	int lastcode();
+	
+	public Iterable<Alumno> findAllById(Iterable<Long> Ids);
 }

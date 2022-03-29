@@ -1,6 +1,7 @@
 package nanifarfalla.microservicios.app.usuarios.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +30,13 @@ import nanifarfalla.microservicios.commons.utileria.Utileria;
 @RestController
 public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 
+	@GetMapping("alumnos-por-curso")
+	public ResponseEntity<?> verFoto(@RequestParam List<Long> ids) {
+		return ResponseEntity.ok(service.findAllById(ids));
+	}
+
 	@GetMapping("/uploads/img/{id}")
-	public ResponseEntity<?> verFoto(@PathVariable Long id) {
+	public ResponseEntity<?> obtenerAlumnosPorCurso(@PathVariable Long id) {
 
 		Optional<Alumno> o = service.findById(id);
 
@@ -65,11 +71,6 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
 	}
 
-	
-	
-	
-	
-	
 	@PostMapping("/crear-con-foto")
 	public ResponseEntity<?> crearConFoto(@Valid Alumno alumno, BindingResult result,
 			@RequestParam MultipartFile archivo) throws IOException {
@@ -110,7 +111,6 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
 	}
 
-	
 	@PostMapping("/crear-con-fotoruta")
 	public ResponseEntity<?> crearConFotoRuta(@Valid Alumno alumno, BindingResult result,
 			@RequestParam MultipartFile archivo, HttpServletRequest request) throws IOException {
@@ -130,7 +130,6 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 
 		return super.crear(alumno, result);
 	}
-
 
 	@PutMapping("/editar-con-fotoruta/{id}")
 	public ResponseEntity<?> editarConFotoRuta(@Valid Alumno alumno, BindingResult result, @PathVariable Long id,
@@ -162,10 +161,4 @@ public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumnoDb));
 	}
 
-	
-
-
-	
-	
-	
 }

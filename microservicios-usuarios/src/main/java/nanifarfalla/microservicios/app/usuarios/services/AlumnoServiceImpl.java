@@ -24,4 +24,11 @@ public class AlumnoServiceImpl extends CommonServiceImpl<Alumno, AlumnoRepositor
 		return repository.lastcode();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Alumno> findAllById(Iterable<Long> Ids) {
+	
+		return repository.findAllById(Ids);
+	}
+
 }

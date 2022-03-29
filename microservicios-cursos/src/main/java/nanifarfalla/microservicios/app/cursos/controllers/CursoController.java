@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import nanifarfalla.microservicios.app.cursos.models.entity.Curso;
+import nanifarfalla.microservicios.app.cursos.models.entity.CursoAlumno;
 import nanifarfalla.microservicios.app.cursos.services.CursoService;
 import nanifarfalla.microservicios.commons.alumnos.models.entity.Alumno;
 import nanifarfalla.microservicios.commons.controllers.CommonController;
@@ -29,23 +30,32 @@ public class CursoController extends CommonController<Curso, CursoService> {
 
 	@Value("${config.balanceador.test}")
 	private String balanceadorTest;
-	
-	
-	
-	
+
+	@GetMapping
+	@Override
+	public ResponseEntity<?> listar() {
+
+		List<Curso> cursos = ((List<Curso>) service.findAll()).stream().map(c -> {
+			c.getCursoAlumnos().forEach(ca -> {
+				Alumno alumno = new Alumno();
+				alumno.setId(ca.getAlumnoId());
+				c.addAlumnos(alumno);
+			});
+			return c;
+		}).collect(Collectors.toList());
+
+		return ResponseEntity.ok().body(cursos);
+	}
+
 	@GetMapping("/balanceador-test")
 	public ResponseEntity<?> balanceadorTest() {
-	
+
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("balanceador", balanceadorTest);
 		response.put("cursos", service.findAll());
 		return ResponseEntity.ok(response);
-		
+
 	}
-	
-	
-	
-	
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editar(@Valid @RequestBody Curso curso, BindingResult result, @PathVariable Long id) {
@@ -73,7 +83,12 @@ public class CursoController extends CommonController<Curso, CursoService> {
 		Curso dbCurso = o.get();
 
 		alumnos.forEach(a -> {
-			dbCurso.addAlumnos(a);
+
+			CursoAlumno cursoAlumno = new CursoAlumno();
+			cursoAlumno.setAlumnoId(a.getId());
+			cursoAlumno.setCurso(dbCurso);
+
+			dbCurso.addCursoAlumnos(cursoAlumno);
 		});
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dbCurso));
 
@@ -89,7 +104,11 @@ public class CursoController extends CommonController<Curso, CursoService> {
 
 		Curso dbCurso = o.get();
 
-		dbCurso.removeAlumnos(alumno);
+		CursoAlumno cursoAlumno = new CursoAlumno();
+		cursoAlumno.setAlumnoId(alumno.getId());
+		dbCurso.removeCursoAlumnos(cursoAlumno);
+
+		; // dbCurso.removeAlumnos(alumno);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dbCurso));
 
