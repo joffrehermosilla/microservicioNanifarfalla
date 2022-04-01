@@ -31,12 +31,18 @@ import nanifarfalla.microservicios.commons.utileria.Utileria;
 public class AlumnoController extends CommonController<Alumno, AlumnoService> {
 
 	@GetMapping("alumnos-por-curso")
-	public ResponseEntity<?> verFoto(@RequestParam List<Long> ids) {
+	public ResponseEntity<?> obtenerAlumnosPorCurso(@RequestParam List<Long> ids) {
 		return ResponseEntity.ok(service.findAllById(ids));
 	}
 
+	
+	
+	
+	
+	
+	
 	@GetMapping("/uploads/img/{id}")
-	public ResponseEntity<?> obtenerAlumnosPorCurso(@PathVariable Long id) {
+	public ResponseEntity<?> verFoto(@PathVariable Long id) {
 
 		Optional<Alumno> o = service.findById(id);
 
